@@ -1,0 +1,45 @@
+services:
+  # Servidor Web (Nginx)
+  web:
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    volumes:
+      # Monta únicamente la carpeta 'ejemplos' en el directorio público de Nginx
+      - .:/var/www/html
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php
+
+  # Intérprete de PHP (PHP-FPM 8.4)
+  php:
+    # En lugar de usar una imagen genérica (image:), construimos (build:) la nuestra
+    # para poder instalar extensiones como pdo_mysql.
+    build:
+      context: .
+      dockerfile: php.Dockerfile
+    # env_file:
+    #  - .env_php
+    volumes:
+      # Mismo mapeo para que PHP-FPM encuentre y procese los archivos correspondientes
+      - .:/var/www/html
+    expose:
+      - "9000"
+    depends_on: 
+      - db 
+  
+  # base de datos armada con dockerfile 
+  db: 
+    build:
+      context: .
+      dockerfile: mysql.Dockerfile
+    container_name: biblioteca_db 
+    restart: "no"
+    command: --default-authentication-plugin=mysql_native_password
+    ports: 
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql 
+    
+volumes:
+  db_data:
