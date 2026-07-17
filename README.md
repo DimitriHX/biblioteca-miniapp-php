@@ -51,3 +51,42 @@ Esta clase centraliza la funcionalidad. Debes implementar:
 *   No es necesario un sistema de login/autenticación.
 
 ¡Mucho éxito con tu implementación!
+
+## Instalación
+
+Este proyecto está preparado para ejecutarse de manera portable en cualquier sistema operativo mediante Docker y Docker Compose.
+
+### Requisitos previos obligatorios:
+1. Tener instalado Docker Desktop (en Windows) o Docker Engine (en Linux).
+2. Tener instalado Docker Compose v2 (integrado por defecto en versiones recientes).
+
+### Instrucciones para Windows (PowerShell / Command Prompt)
+1. Abra su terminal preferida en la carpeta raíz del proyecto (donde se encuentra el archivo `Docker-PHP.yml`).
+2. Ejecute el siguiente comando para descargar imágenes, construir los servicios y levantar el entorno de desarrollo:
+   ```powershell
+   docker compose -f Docker-PHP.yml up -d --build
+   ```
+3. Abra su navegador de internet favorito e ingrese a la dirección:
+   [http://localhost:8080](http://localhost:8080)
+4. Si necesita detener el entorno y eliminar los datos persistidos de la base de datos para reiniciarla, ejecute:
+   ```powershell
+   docker compose -f Docker-PHP.yml down -v
+   ```
+
+### Instrucciones para Linux (Bash / Zsh)
+1. Abra una terminal en el directorio raíz de este proyecto.
+2. Inicie el entorno construyendo las imágenes y levantando los servicios en segundo plano ejecutando el siguiente comando:
+   ```bash
+   sudo docker compose -f Docker-PHP.yml up -d --build
+   ```
+3. Valide que los contenedores se encuentren activos y estables con:
+   ```bash
+   sudo docker ps
+   ```
+4. Acceda a la aplicación web del sistema de biblioteca mediante:
+   [http://localhost:8080](http://localhost:8080)
+5. Para detener y limpiar el entorno completo con su base de datos, corra:
+   ```bash
+   sudo docker compose -f Docker-PHP.yml down -v
+   ```
+
